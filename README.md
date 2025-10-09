@@ -1,3 +1,1 @@
 # clone-tabnews
-
-test
