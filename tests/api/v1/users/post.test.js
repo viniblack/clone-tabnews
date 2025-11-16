@@ -41,9 +41,15 @@ describe("POST /api/v1/users", () => {
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
-      const userInDatabase = await user.findOneByUsername('viniblack');
-      const correctPasswordMatch = await password.compare("senha123", userInDatabase.password);
-      const incorrectPasswordMatch = await password.compare("SenhaErrada", userInDatabase.password);
+      const userInDatabase = await user.findOneByUsername("viniblack");
+      const correctPasswordMatch = await password.compare(
+        "senha123",
+        userInDatabase.password,
+      );
+      const incorrectPasswordMatch = await password.compare(
+        "SenhaErrada",
+        userInDatabase.password,
+      );
 
       expect(correctPasswordMatch).toBe(true);
       expect(incorrectPasswordMatch).toBe(false);
@@ -127,5 +133,4 @@ describe("POST /api/v1/users", () => {
       });
     });
   });
-
 });

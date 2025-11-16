@@ -76,7 +76,7 @@ async function update(username, userInputValues) {
     await hashPasswordInObject(userInputValues);
   }
 
-  const userWithNewValues = { ...currentUser, ...userInputValues }
+  const userWithNewValues = { ...currentUser, ...userInputValues };
 
   const updatedUser = await runUpdateQuery(userWithNewValues);
   return updatedUser;
@@ -100,11 +100,11 @@ async function update(username, userInputValues) {
         userWithNewValues.id,
         userWithNewValues.username,
         userWithNewValues.email,
-        userWithNewValues.password
-      ]
-    })
+        userWithNewValues.password,
+      ],
+    });
 
-    return results.rows[0]
+    return results.rows[0];
   }
 }
 
@@ -158,7 +158,7 @@ async function hashPasswordInObject(userInputValues) {
 const user = {
   create,
   findOneByUsername,
-  update
+  update,
 };
 
 export default user;

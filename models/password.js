@@ -1,4 +1,4 @@
-import bcryptjs from 'bcryptjs';
+import bcryptjs from "bcryptjs";
 
 async function hash(password) {
   const rounds = getNumverOfRounds();
@@ -12,10 +12,10 @@ function getNumverOfRounds() {
   let rounds = 1;
 
   if (process.env.NODE_ENV === "production") {
-    rounds = 14
+    rounds = 14;
   }
 
-  return rounds
+  return rounds;
 }
 
 async function compare(providedPassword, storedPassword) {
@@ -24,7 +24,7 @@ async function compare(providedPassword, storedPassword) {
 
 const password = {
   hash,
-  compare
-}
+  compare,
+};
 
 export default password;
