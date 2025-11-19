@@ -35,13 +35,13 @@ describe("POST /api/v1/sessions", () => {
         name: "UnauthorizedError",
         message: "Dados de autenticação não conferem.",
         action: "Verifique se os dados enviados estão corretos.",
-        status_code: 401
-      })
+        status_code: 401,
+      });
     });
 
     test("With correct `email` but incorrect `password`", async () => {
       await orchestrator.createUser({
-        email: "email.correto@black.com"
+        email: "email.correto@black.com",
       });
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
@@ -63,8 +63,8 @@ describe("POST /api/v1/sessions", () => {
         name: "UnauthorizedError",
         message: "Dados de autenticação não conferem.",
         action: "Verifique se os dados enviados estão corretos.",
-        status_code: 401
-      })
+        status_code: 401,
+      });
     });
 
     test("With incorrect `email` and incorrect `password`", async () => {
@@ -89,14 +89,14 @@ describe("POST /api/v1/sessions", () => {
         name: "UnauthorizedError",
         message: "Dados de autenticação não conferem.",
         action: "Verifique se os dados enviados estão corretos.",
-        status_code: 401
-      })
+        status_code: 401,
+      });
     });
 
     test("With correct `email` and correct `password`", async () => {
       const createdUser = await orchestrator.createUser({
-        email: 'tudo.correto@black.com',
-        password: 'tudocerto'
+        email: "tudo.correto@black.com",
+        password: "tudocerto",
       });
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
@@ -105,8 +105,8 @@ describe("POST /api/v1/sessions", () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: 'tudo.correto@black.com',
-          password: 'tudocerto',
+          email: "tudo.correto@black.com",
+          password: "tudocerto",
         }),
       });
 
@@ -122,7 +122,6 @@ describe("POST /api/v1/sessions", () => {
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
-
 
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.expires_at)).not.toBeNaN();
@@ -146,9 +145,8 @@ describe("POST /api/v1/sessions", () => {
         value: responseBody.token,
         maxAge: session.EXPIRATION_IN_MILLISECONDS / 1000,
         path: "/",
-        httpOnly: true
-      })
-
+        httpOnly: true,
+      });
     });
   });
 });

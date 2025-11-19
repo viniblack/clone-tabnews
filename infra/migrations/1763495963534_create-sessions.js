@@ -9,7 +9,7 @@ exports.up = (pgm) => {
     token: {
       type: "varchar(96)",
       notNull: true,
-      unique: true
+      unique: true,
     },
 
     user_id: {
@@ -19,7 +19,7 @@ exports.up = (pgm) => {
 
     expires_at: {
       type: "timestamptz",
-      notNull: true
+      notNull: true,
     },
 
     // Porque salvar timestampt com time zone: https://justatheory.com/2012/04/postgres-use-timestamptz/
