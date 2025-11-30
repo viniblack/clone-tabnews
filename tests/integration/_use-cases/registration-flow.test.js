@@ -25,14 +25,14 @@ describe("Use case: Registration Flow (all successful)", () => {
         body: JSON.stringify({
           username: "RegistrationFlow",
           email: "registration.flow@black.com",
-          password: "RegistrationFlowPassword"
-        })
-      }
+          password: "RegistrationFlowPassword",
+        }),
+      },
     );
 
     expect(createUserResponse.status).toBe(201);
 
-    createUserResponseBody = await createUserResponse.json()
+    createUserResponseBody = await createUserResponse.json();
 
     expect(createUserResponseBody).toEqual({
       id: createUserResponseBody.id,
@@ -41,7 +41,7 @@ describe("Use case: Registration Flow (all successful)", () => {
       features: ["read:activation_token"],
       password: createUserResponseBody.password,
       created_at: createUserResponseBody.created_at,
-      updated_at: createUserResponseBody.updated_at
+      updated_at: createUserResponseBody.updated_at,
     });
   });
 
@@ -55,16 +55,20 @@ describe("Use case: Registration Flow (all successful)", () => {
 
     activationTokenId = orchestrator.extractUUID(lastEmail.text);
 
-    expect(lastEmail.text).toContain(`${webserver.origin}/cadastro/ativar/${activationTokenId}`)
+    expect(lastEmail.text).toContain(
+      `${webserver.origin}/cadastro/ativar/${activationTokenId}`,
+    );
 
-    const activationTokenObject = await activation.findOneValidById(activationTokenId);
+    const activationTokenObject =
+      await activation.findOneValidById(activationTokenId);
 
     expect(activationTokenObject.user_id).toBe(createUserResponseBody.id);
     expect(activationTokenObject.used_at).toBe(null);
   });
 
   test("Activation account", async () => {
-    const activationResponse = await fetch(`http://localhost:3000/api/v1/activations/${activationTokenId}`,
+    const activationResponse = await fetch(
+      `http://localhost:3000/api/v1/activations/${activationTokenId}`,
       {
         method: "PATCH",
       },
@@ -90,7 +94,7 @@ describe("Use case: Registration Flow (all successful)", () => {
         },
         body: JSON.stringify({
           email: "registration.flow@black.com",
-          password: "RegistrationFlowPassword"
+          password: "RegistrationFlowPassword",
         }),
       },
     );
@@ -102,7 +106,5 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(createSessionsResponseBody.user_id).toBe(createUserResponseBody.id);
   });
 
-  test("Get user information", async () => {
-
-  });
+  test("Get user information", async () => {});
 });

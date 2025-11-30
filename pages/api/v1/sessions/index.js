@@ -9,7 +9,6 @@ router.use(controller.injectAnonymousOrUser);
 router.post(controller.canRequest("create:session"), postHandler);
 router.delete(deleteHandler);
 
-
 export default router.handler(controller.errorHandlers);
 
 async function postHandler(request, response) {

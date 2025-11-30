@@ -63,11 +63,11 @@ async function clearSessionCookie(response) {
 
 async function injectAnonymousOrUser(request, response, next) {
   if (request.cookies?.session_id) {
-    await injectAuthenticatedUser(request)
+    await injectAuthenticatedUser(request);
     return next();
   }
 
-  injectAnonymousUser(request)
+  injectAnonymousUser(request);
   return next();
 }
 
@@ -78,19 +78,19 @@ async function injectAuthenticatedUser(request) {
 
   request.context = {
     ...request.context,
-    user: userObject
-  }
+    user: userObject,
+  };
 }
 
 function injectAnonymousUser(request) {
   const anonymousUserObject = {
-    features: ["read:activation_token", "create:session", "create:user"]
-  }
+    features: ["read:activation_token", "create:session", "create:user"],
+  };
 
   request.context = {
     ...request.context,
-    user: anonymousUserObject
-  }
+    user: anonymousUserObject,
+  };
 }
 
 function canRequest(feature) {
@@ -103,9 +103,9 @@ function canRequest(feature) {
 
     throw new ForbiddenError({
       message: "Você não possui permissão para executar esta ação.",
-      action: `Verifique se o seu usuário possui a feature "${feature}"`
-    })
-  }
+      action: `Verifique se o seu usuário possui a feature "${feature}"`,
+    });
+  };
 }
 
 const controller = {

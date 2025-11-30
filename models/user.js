@@ -101,7 +101,6 @@ async function create(userInputValues) {
   await hashPasswordInObject(userInputValues);
   injectDefaultFeaturesInObject(userInputValues);
 
-
   const newUser = await runInsertQuery(userInputValues);
   return newUser;
 
@@ -126,7 +125,7 @@ async function create(userInputValues) {
   }
 
   function injectDefaultFeaturesInObject(userInputValues) {
-    userInputValues.features = ["read:activation_token"]
+    userInputValues.features = ["read:activation_token"];
   }
 }
 

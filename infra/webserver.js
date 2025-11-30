@@ -3,15 +3,15 @@ function getOrigin() {
     return "http://localhost:3000";
   }
 
-  if (process.env.VERCEL_ENV === 'preview') {
-    return `https://${process.env.VERCEL_ENV}`
+  if (process.env.VERCEL_ENV === "preview") {
+    return `https://${process.env.VERCEL_ENV}`;
   }
 
   return "https://viniblack.com.br";
 }
 
 const webserver = {
-  origin: getOrigin()
-}
+  origin: getOrigin(),
+};
 
 export default webserver;

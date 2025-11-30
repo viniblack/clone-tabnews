@@ -4,7 +4,7 @@ import { NotFoundError } from "infra/errors";
 import webserver from "infra/webserver.js";
 import user from "./user";
 
-const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000 // 15 minutes
+const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000; // 15 minutes
 
 async function findOneValidById(tokenId) {
   const activationTokenObject = await runSelectQuery(tokenId);
@@ -25,13 +25,14 @@ async function findOneValidById(tokenId) {
         LIMIT
         1;
       `,
-      values: [tokenId]
+      values: [tokenId],
     });
 
     if (results.rowCont === 0) {
       throw new NotFoundError({
-        message: "O token de ativação utilizado não foi encontrado no sistema ou expirou.",
-        action: "Faça um novo cadastro."
+        message:
+          "O token de ativação utilizado não foi encontrado no sistema ou expirou.",
+        action: "Faça um novo cadastro.",
       });
     }
     return results.rows[0];
@@ -39,7 +40,7 @@ async function findOneValidById(tokenId) {
 }
 
 async function create(userId) {
-  const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILLISECONDS)
+  const expiresAt = new Date(Date.now() + EXPIRATION_IN_MILLISECONDS);
 
   const newToken = await runInsertQuey(userId, expiresAt);
   return newToken;
@@ -54,8 +55,8 @@ async function create(userId) {
         RETURNING
           *
         ;`,
-      values: [userId, expiresAt]
-    })
+      values: [userId, expiresAt],
+    });
 
     return results.rows[0];
   }
@@ -78,7 +79,7 @@ async function markTokenAsUsed(activationTokenId) {
       RETURNING
         *
       ;`,
-      values: [activationTokenId]
+      values: [activationTokenId],
     });
 
     return results.rows[0];
@@ -86,7 +87,7 @@ async function markTokenAsUsed(activationTokenId) {
 }
 
 async function activateUserByUserId(userId) {
-  const activatedUser = await user.setFeatures(userId, ['create:session']);
+  const activatedUser = await user.setFeatures(userId, ["create:session"]);
   return activatedUser;
 }
 
@@ -102,7 +103,7 @@ ${webserver.origin}/cadastro/ativar/${activationToken.id}
 Atenciosamente,
 Vini Black.
   `,
-  })
+  });
 }
 
 const activation = {
@@ -111,6 +112,6 @@ const activation = {
   sendEmailToUser,
   markTokenAsUsed,
   activateUserByUserId,
-}
+};
 
-export default activation
+export default activation;
