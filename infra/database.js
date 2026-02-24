@@ -9,7 +9,7 @@ async function query(queryObject) {
     return result;
   } catch (error) {
     const serviceErrorObject = new ServiceError({
-      message: "Erro na conexão com Banco ou na Query",
+      message: "Erro na conexão com Banco ou na Query.",
       cause: error,
     });
     throw serviceErrorObject;
@@ -36,6 +36,7 @@ const database = {
   query,
   getNewClient,
 };
+
 export default database;
 
 function getSSLValues() {

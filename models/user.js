@@ -96,8 +96,8 @@ async function findOneByEmail(email) {
 }
 
 async function create(userInputValues) {
-  await validateUniqueEmail(userInputValues.email);
   await validateUniqueUsername(userInputValues.username);
+  await validateUniqueEmail(userInputValues.email);
   await hashPasswordInObject(userInputValues);
   injectDefaultFeaturesInObject(userInputValues);
 
@@ -132,12 +132,12 @@ async function create(userInputValues) {
 async function update(username, userInputValues) {
   const currentUser = await findOneByUsername(username);
 
-  if ("email" in userInputValues) {
-    await validateUniqueEmail(userInputValues.email);
-  }
-
   if ("username" in userInputValues) {
     await validateUniqueUsername(userInputValues.username);
+  }
+
+  if ("email" in userInputValues) {
+    await validateUniqueEmail(userInputValues.email);
   }
 
   if ("password" in userInputValues) {
@@ -152,17 +152,17 @@ async function update(username, userInputValues) {
   async function runUpdateQuery(userWithNewValues) {
     const results = await database.query({
       text: `
-      UPDATE
-        users
-      SET
-        username = $2,
-        email = $3,
-        password = $4,
-        updated_at = timezone('utc', now())
-      WHERE
-        id = $1
-      RETURNING
-        *
+        UPDATE
+          users
+        SET
+          username = $2,
+          email = $3,
+          password = $4,
+          updated_at = timezone('utc', now())
+        WHERE
+          id = $1
+        RETURNING
+          *
       `,
       values: [
         userWithNewValues.id,
@@ -179,13 +179,13 @@ async function update(username, userInputValues) {
 async function validateUniqueUsername(username) {
   const results = await database.query({
     text: `
-        SELECT
-          username
-        FROM
-          users
-        WHERE
-          LOWER(username) = LOWER($1)
-        ;`,
+      SELECT
+        username
+      FROM
+        users
+      WHERE
+        LOWER(username) = LOWER($1)
+      ;`,
     values: [username],
   });
 
@@ -200,13 +200,13 @@ async function validateUniqueUsername(username) {
 async function validateUniqueEmail(email) {
   const results = await database.query({
     text: `
-        SELECT
-          email
-        FROM
-          users
-        WHERE
-          LOWER(email) = LOWER($1)
-        ;`,
+      SELECT
+        email
+      FROM
+        users
+      WHERE
+        LOWER(email) = LOWER($1)
+      ;`,
     values: [email],
   });
 
@@ -230,17 +230,16 @@ async function setFeatures(userId, features) {
   async function runUpdateQuery(userId, features) {
     const results = await database.query({
       text: `
-        UPDATE
-          users
-        SET
-          features = $2,
-          updated_at = timezone('utc', now())
-        WHERE
-          id = $1
-        RETURNING
-          *
-        ;`,
-
+       UPDATE
+         users
+       SET
+         features = $2,
+         updated_at = timezone('utc', now())
+       WHERE
+         id = $1
+       RETURNING
+         *
+       ;`,
       values: [userId, features],
     });
 
@@ -253,8 +252,8 @@ const user = {
   findOneById,
   findOneByUsername,
   findOneByEmail,
-  setFeatures,
   update,
+  setFeatures,
 };
 
 export default user;

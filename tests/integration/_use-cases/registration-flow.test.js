@@ -1,7 +1,7 @@
-import webserver from "infra/webserver";
-import activation from "models/activation";
-import user from "models/user";
-import orchestrator from "tests/orchestrator";
+import user from "models/user.js";
+import activation from "models/activation.js";
+import orchestrator from "tests/orchestrator.js";
+import webserver from "infra/webserver.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -51,7 +51,7 @@ describe("Use case: Registration Flow (all successful)", () => {
 
     expect(lastEmail.sender).toBe("<contato@viniblack.com.br>");
     expect(lastEmail.recipients[0]).toBe("<registration.flow@black.com>");
-    expect(lastEmail.subject).toBe("Ative seu cadastro");
+    expect(lastEmail.subject).toBe("Ative seu cadastro!");
     expect(lastEmail.text).toContain("RegistrationFlow");
 
     activationTokenId = orchestrator.extractUUID(lastEmail.text);
@@ -67,7 +67,7 @@ describe("Use case: Registration Flow (all successful)", () => {
     expect(activationTokenObject.used_at).toBe(null);
   });
 
-  test("Activation account", async () => {
+  test("Activate account", async () => {
     const activationResponse = await fetch(
       `http://localhost:3000/api/v1/activations/${activationTokenId}`,
       {
@@ -108,18 +108,15 @@ describe("Use case: Registration Flow (all successful)", () => {
   });
 
   test("Get user information", async () => {
-    const userResponse = await fetch(
-      "http://localhost:3000/api/v1/user",
-      {
-        headers: {
-          cookie: `session_id=${createSessionsResponseBody.token}`
-        }
-      }
-    );
+    const userResponse = await fetch("http://localhost:3000/api/v1/user", {
+      headers: {
+        cookie: `session_id=${createSessionsResponseBody.token}`,
+      },
+    });
 
     expect(userResponse.status).toBe(200);
 
-    const userResponseBody = await userResponse.json()
+    const userResponseBody = await userResponse.json();
 
     expect(userResponseBody.id).toBe(createUserResponseBody.id);
   });

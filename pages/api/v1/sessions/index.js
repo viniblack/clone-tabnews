@@ -4,7 +4,7 @@ import authentication from "models/authentication.js";
 import authorization from "models/authorization.js";
 import session from "models/session.js";
 
-import { ForbiddenError } from "infra/errors";
+import { ForbiddenError } from "infra/errors.js";
 
 const router = createRouter();
 
@@ -24,7 +24,7 @@ async function postHandler(request, response) {
 
   if (!authorization.can(authenticatedUser, "create:session")) {
     throw new ForbiddenError({
-      message: "Você não possui permissã para fazer login",
+      message: "Você não possui permissão para fazer login.",
       action: "Contate o suporte caso você acredite que isto seja um erro.",
     });
   }
@@ -40,7 +40,7 @@ async function deleteHandler(request, response) {
   const sessionToken = request.cookies.session_id;
 
   const sessionObject = await session.findOneValidByToken(sessionToken);
-  const expiredSession = await session.expiredById(sessionObject.id);
+  const expiredSession = await session.expireById(sessionObject.id);
   controller.clearSessionCookie(response);
 
   return response.status(200).json(expiredSession);
