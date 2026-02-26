@@ -32,10 +32,10 @@ describe("PATCH /api/v1/users/[username]", () => {
       const responseBody = await response.json();
 
       expect(responseBody).toEqual({
-        "action": "Verifique se o seu usuário possui a feature \"update:user\"",
-        "message": "Você não possui permissão para executar esta ação.",
-        "name": "ForbiddenError",
-        "status_code": 403,
+        action: 'Verifique se o seu usuário possui a feature "update:user"',
+        message: "Você não possui permissão para executar esta ação.",
+        name: "ForbiddenError",
+        status_code: 403,
       });
     });
   });
@@ -89,13 +89,15 @@ describe("PATCH /api/v1/users/[username]", () => {
       });
 
       const activatedUser2 = await orchestrator.activateUser(createdUser2);
-      const sessionObject2 = await orchestrator.createSession(activatedUser2.id);
+      const sessionObject2 = await orchestrator.createSession(
+        activatedUser2.id,
+      );
 
       const response = await fetch("http://localhost:3000/api/v1/users/user2", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Cookie: `session_id=${sessionObject2.token}`
+          Cookie: `session_id=${sessionObject2.token}`,
         },
         body: JSON.stringify({
           username: "user1",
@@ -124,7 +126,9 @@ describe("PATCH /api/v1/users/[username]", () => {
       });
 
       const activatedUser2 = await orchestrator.activateUser(createdUser2);
-      const sessionObject2 = await orchestrator.createSession(activatedUser2.id);
+      const sessionObject2 = await orchestrator.createSession(
+        activatedUser2.id,
+      );
 
       const response = await fetch(
         `http://localhost:3000/api/v1/users/${createdUser2.username}`,
@@ -132,7 +136,7 @@ describe("PATCH /api/v1/users/[username]", () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Cookie: `session_id=${sessionObject2.token}`
+            Cookie: `session_id=${sessionObject2.token}`,
           },
           body: JSON.stringify({
             email: "email1@curso.dev",
@@ -163,7 +167,7 @@ describe("PATCH /api/v1/users/[username]", () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Cookie: `session_id=${sessionObject.token}`
+            Cookie: `session_id=${sessionObject.token}`,
           },
           body: JSON.stringify({
             username: "uniqueUser2",
@@ -204,7 +208,7 @@ describe("PATCH /api/v1/users/[username]", () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Cookie: `session_id=${sessionObject.token}`
+            Cookie: `session_id=${sessionObject.token}`,
           },
           body: JSON.stringify({
             email: "uniqueEmail2@curso.dev",
@@ -246,7 +250,7 @@ describe("PATCH /api/v1/users/[username]", () => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Cookie: `session_id=${sessionObject.token}`
+            Cookie: `session_id=${sessionObject.token}`,
           },
           body: JSON.stringify({
             password: "newPassword2",
