@@ -22,7 +22,7 @@ const availableFeatures = [
   // STATUS
   "read:status",
   "read:status:all",
-]
+];
 
 function can(user, feature, resource) {
   validateUser(user);
@@ -130,27 +130,26 @@ function filterOutput(user, feature, resource) {
 function validateUser(user) {
   if (!user || !user.features) {
     throw new InternalServerError({
-      cause: "É necessário fornecer `user` no model `authorization`"
-    })
+      cause: "É necessário fornecer `user` no model `authorization`",
+    });
   }
 }
 
 function validateFeature(feature) {
-
   if (!feature || !availableFeatures.includes(feature)) {
     throw new InternalServerError({
-      cause: "É necessário fornecer uma `feature` conhecida no model `authorization`."
-    })
+      cause:
+        "É necessário fornecer uma `feature` conhecida no model `authorization`.",
+    });
   }
 }
 
-
 function validateResource(resource) {
-
   if (!resource) {
     throw new InternalServerError({
-      cause: "É necessário fornecer uma `resource` em `authorization.filterOutput`."
-    })
+      cause:
+        "É necessário fornecer uma `resource` em `authorization.filterOutput`.",
+    });
   }
 }
 
