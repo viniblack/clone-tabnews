@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import database from "infra/database";
+import database from "infra/database.js";
 import { UnauthorizedError } from "infra/errors";
 
 const EXPIRATION_IN_MILLISECONDS = 60 * 60 * 24 * 30 * 1000; // 30 Days
@@ -78,7 +78,7 @@ async function renew(sessionId) {
           id = $1
         RETURNING
           *
-      ;`,
+        ;`,
       values: [sessionId, expiresAt],
     });
 
@@ -86,7 +86,7 @@ async function renew(sessionId) {
   }
 }
 
-async function expiredById(sessionId) {
+async function expireById(sessionId) {
   const expiredSessionObject = await runUpdateQuery(sessionId);
   return expiredSessionObject;
 
@@ -102,7 +102,7 @@ async function expiredById(sessionId) {
           id = $1
         RETURNING
           *
-      ;`,
+        ;`,
       values: [sessionId],
     });
 
@@ -114,7 +114,7 @@ const session = {
   create,
   findOneValidByToken,
   renew,
-  expiredById,
+  expireById,
   EXPIRATION_IN_MILLISECONDS,
 };
 

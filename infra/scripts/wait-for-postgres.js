@@ -3,8 +3,7 @@ const { exec } = require("node:child_process");
 function checkPostgres() {
   exec("docker exec postgres-dev pg_isready --host localhost", handleReturn);
 
-  // eslint-disable-next-line no-unused-vars
-  function handleReturn(error, stdout, _stderr) {
+  function handleReturn(error, stdout) {
     if (stdout.search("accepting connections") === -1) {
       process.stdout.write(".");
       checkPostgres();
@@ -16,5 +15,4 @@ function checkPostgres() {
 }
 
 process.stdout.write("\n\n🔴 Aguardando Postgres aceitar conexões");
-
 checkPostgres();

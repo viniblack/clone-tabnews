@@ -96,8 +96,10 @@ describe("POST /api/v1/sessions", () => {
     test("With correct `email` and correct `password`", async () => {
       const createdUser = await orchestrator.createUser({
         email: "tudo.correto@black.com",
-        password: "tudocerto",
+        password: "tudocorreto",
       });
+
+      await orchestrator.activateUser(createdUser);
 
       const response = await fetch("http://localhost:3000/api/v1/sessions", {
         method: "POST",
@@ -106,7 +108,7 @@ describe("POST /api/v1/sessions", () => {
         },
         body: JSON.stringify({
           email: "tudo.correto@black.com",
-          password: "tudocerto",
+          password: "tudocorreto",
         }),
       });
 

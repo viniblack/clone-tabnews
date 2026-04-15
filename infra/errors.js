@@ -3,9 +3,8 @@ export class InternalServerError extends Error {
     super("Um erro interno não esperado aconteceu.", {
       cause,
     });
-
     this.name = "InternalServerError";
-    this.action = "Entre em contato com o suporte";
+    this.action = "Entre em contato com o suporte.";
     this.statusCode = statusCode || 500;
   }
 
@@ -20,14 +19,14 @@ export class InternalServerError extends Error {
 }
 
 export class ServiceError extends Error {
-  constructor({ cause, message }) {
-    super(message || "Servuço indisponível no momento.", {
+  constructor({ cause, message, action, context }) {
+    super(message || "Serviço indisponível no momento.", {
       cause,
     });
-
     this.name = "ServiceError";
-    this.action = "Verifique se o serviço está disponível.";
+    this.action = action || "Verifique se o serviço está disponível.";
     this.statusCode = 503;
+    this.context = context;
   }
 
   toJSON() {
@@ -36,6 +35,7 @@ export class ServiceError extends Error {
       message: this.message,
       action: this.action,
       status_code: this.statusCode,
+      context: this.context,
     };
   }
 }
@@ -45,7 +45,6 @@ export class ValidationError extends Error {
     super(message || "Um erro de validação ocorreu.", {
       cause,
     });
-
     this.name = "ValidationError";
     this.action = action || "Ajuste os dados enviados e tente novamente.";
     this.statusCode = 400;
@@ -66,11 +65,31 @@ export class NotFoundError extends Error {
     super(message || "Não foi possível encontrar este recurso no sistema.", {
       cause,
     });
-
     this.name = "NotFoundError";
     this.action =
       action || "Verifique se os parâmetros enviados na consulta estão certos.";
     this.statusCode = 404;
+  }
+
+  toJSON() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.statusCode,
+    };
+  }
+}
+
+export class ForbiddenError extends Error {
+  constructor({ cause, message, action }) {
+    super(message || "Acesso negado.", {
+      cause,
+    });
+    this.name = "ForbiddenError";
+    this.action =
+      action || "Verifique as features necessárias antes de continuar.";
+    this.statusCode = 403;
   }
 
   toJSON() {
@@ -88,7 +107,6 @@ export class UnauthorizedError extends Error {
     super(message || "Usuário não autenticado.", {
       cause,
     });
-
     this.name = "UnauthorizedError";
     this.action = action || "Faça novamente o login para continuar.";
     this.statusCode = 401;

@@ -28,7 +28,7 @@ async function getAuthenticatedUser(providedEmail, providedPassword) {
       if (error instanceof NotFoundError) {
         throw new UnauthorizedError({
           message: "Email não confere.",
-          action: "Verifique se este dado está corretos.",
+          action: "Verifique se este dado está correto.",
         });
       }
 
@@ -47,7 +47,7 @@ async function getAuthenticatedUser(providedEmail, providedPassword) {
     if (!correctPasswordMatch) {
       throw new UnauthorizedError({
         message: "Senha não confere.",
-        action: "Verifique se este dado está corretos.",
+        action: "Verifique se este dado está correto.",
       });
     }
   }
